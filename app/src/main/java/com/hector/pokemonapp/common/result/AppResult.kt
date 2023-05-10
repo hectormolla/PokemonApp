@@ -1,6 +1,6 @@
 package com.hector.pokemonapp.common.result
 
-import com.hector.pokemonapp.common.exception.AppException
+import com.hector.pokemonapp.common.exception.AppError
 
 sealed class AppResult<out T> {
     data class Success<T>(
@@ -8,6 +8,6 @@ sealed class AppResult<out T> {
     ) : AppResult<T>()
 
     data class Error(
-        val exception: AppException,
+        val value: AppError,
     ) : AppResult<Nothing>()
 }

@@ -26,7 +26,7 @@ class PokemonDetailsScreenViewModel(
     fun loadDetails() = viewModelScope.launch {
         screenState = when (val result = getPokemonsDetails(name = name)) {
             is AppResult.Error -> PokemonDetailsScreenState.Error(
-                messageResId = result.exception.resMessageId,
+                messageResId = result.value.messageResId,
             )
             is AppResult.Success -> PokemonDetailsScreenState.Success(
                 pokemonDetailsViewItem = result.data.toPokemonDetailsViewItem(),

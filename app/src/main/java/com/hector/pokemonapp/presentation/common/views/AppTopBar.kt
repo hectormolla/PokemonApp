@@ -15,10 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
 import com.hector.pokemonapp.R
 import com.hector.pokemonapp.presentation.LocalNavigator
 import com.hector.pokemonapp.presentation.common.navigation.Navigator
+import com.hector.pokemonapp.presentation.common.tags.ViewTags.BACK_BUTTON
 
 @Composable
 fun AppTopBar(
@@ -35,8 +38,10 @@ fun AppTopBar(
     ) {
         if (!navigator.isFirstScreen()) {
             IconButton(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .semantics { testTag = BACK_BUTTON },
                 onClick = { navigator.goBack() },
-                modifier = Modifier.align(Alignment.CenterStart),
             ) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,

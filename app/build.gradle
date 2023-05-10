@@ -42,7 +42,7 @@ android {
     }
     packagingOptions {
         resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += '/META-INF/*'
         }
     }
 }
@@ -59,7 +59,8 @@ ext.versions = [
         koinCompose        : '3.4.4',
         serialization      : '1.5.0',
         lottie             : '6.0.0',
-        coil               : '2.3.0'
+        coil               : '2.3.0',
+        mockk              : '1.13.5'
 ]
 
 dependencies {
@@ -87,6 +88,8 @@ dependencies {
     implementation "io.coil-kt:coil-compose:$versions.coil"
 
     testImplementation 'junit:junit:4.13.2'
+    testImplementation "io.mockk:mockk:$versions.mockk"
+    androidTestImplementation "io.mockk:mockk-android:$versions.mockk"
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation platform("androidx.compose:compose-bom:$versions.composeBom")
