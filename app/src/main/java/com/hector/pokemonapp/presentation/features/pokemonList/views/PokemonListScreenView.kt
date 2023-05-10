@@ -3,12 +3,15 @@ package com.hector.pokemonapp.presentation.features.pokemonList.views
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.hector.pokemonapp.presentation.LocalNavigator
 import com.hector.pokemonapp.presentation.common.navigation.Navigator
+import com.hector.pokemonapp.presentation.common.views.ErrorView
 import com.hector.pokemonapp.presentation.common.views.PokemonItemPlaceholderView
 import com.hector.pokemonapp.presentation.common.views.ScreenScafold
 import com.hector.pokemonapp.presentation.features.pokemonList.PokemonListScreenState
@@ -24,8 +27,14 @@ fun PokemonListScreenView(
     val pagingItems: LazyPagingItems<PokemonViewItem> =
         viewModel.pagingFlowState.collectAsLazyPagingItems()
     ScreenScafold {
-        when (viewModel.screenState) {
-            PokemonListScreenState.Error -> ErrorView()
+        when (val screenState = viewModel.screenState) {
+            is PokemonListScreenState.Error -> ErrorView(
+                errorMessage = stringResource(id = screenState.messageResId),
+                onReloadClick = {
+                    viewModel.reload()
+                    pagingItems.refresh()
+                },
+            )
             PokemonListScreenState.Loading -> LoadingView()
             is PokemonListScreenState.Success -> ContentView(
                 pagingItems = pagingItems,
@@ -33,10 +42,6 @@ fun PokemonListScreenView(
             )
         }
     }
-}
-
-@Composable
-private fun ErrorView() {
 }
 
 @Composable

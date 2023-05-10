@@ -1,6 +1,5 @@
 package com.hector.pokemonapp.presentation.features.pokemonList
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 
@@ -10,7 +9,6 @@ class PokemonListPagingSource(
 ) : PagingSource<Int, PokemonViewItem>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonViewItem> {
         return try {
-            Log.w("Pager", "requesting page: ${params.key}")
             val page = params.key ?: 0
             loadPage(page)
             val state = getState()
