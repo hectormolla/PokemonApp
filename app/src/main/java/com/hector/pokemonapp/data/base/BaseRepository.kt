@@ -1,7 +1,6 @@
 package com.hector.pokemonapp.data.base
 
-import com.hector.pokemonapp.R
-import com.hector.pokemonapp.common.exception.AppException
+import com.hector.pokemonapp.common.exception.AppError
 import com.hector.pokemonapp.common.result.AppResult
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.ResponseException
@@ -30,24 +29,8 @@ abstract class BaseRepository {
     }
 }
 
-private fun processException(e: Throwable): AppException = when (e) {
-    is HttpRequestTimeoutException, is ResponseException ->
-        AppException(
-            resMessageId = R.string.error_server,
-            msg = e.localizedMessage,
-            cause = e,
-        )
-    is IOException ->
-        AppException(
-            resMessageId = R.string.error_offline,
-            msg = e.localizedMessage,
-            cause = e,
-        )
-    else -> {
-        AppException(
-            resMessageId = R.string.error_unknown,
-            msg = e.localizedMessage,
-            cause = e,
-        )
-    }
+private fun processException(e: Throwable): AppError = when (e) {
+    is HttpRequestTimeoutException, is ResponseException -> AppError.Server(exception = e)
+    is IOException -> AppError.Offline(exception = e)
+    else -> AppError.Unknown(exception = e)
 }

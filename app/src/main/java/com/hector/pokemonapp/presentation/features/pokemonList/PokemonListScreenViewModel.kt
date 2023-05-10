@@ -10,7 +10,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.hector.pokemonapp.R
-import com.hector.pokemonapp.common.exception.AppException
+import com.hector.pokemonapp.common.exception.AppError
 import com.hector.pokemonapp.common.extensions.capitalize
 import com.hector.pokemonapp.domain.entities.PaginatedPokemons
 import com.hector.pokemonapp.domain.entities.Pokemon
@@ -56,7 +56,7 @@ class PokemonListScreenViewModel(
 
     private fun processError(error: Throwable) {
         val messageResId = when (error) {
-            is AppException -> error.resMessageId
+            is AppError -> error.messageResId
             else -> R.string.error_unknown
         }
         screenState = PokemonListScreenState.Error(messageResId = messageResId)
