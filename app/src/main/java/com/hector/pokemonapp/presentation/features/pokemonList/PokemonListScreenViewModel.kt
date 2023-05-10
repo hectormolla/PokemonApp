@@ -13,6 +13,7 @@ import com.hector.pokemonapp.common.extensions.capitalize
 import com.hector.pokemonapp.domain.entities.Pokemon
 import com.hector.pokemonapp.domain.usecase.GetPokemonPaginatedListUseCase
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 
 class PokemonListScreenViewModel(
     private val getPokemonPaginatedList: GetPokemonPaginatedListUseCase,
@@ -26,10 +27,15 @@ class PokemonListScreenViewModel(
         )
     }.flow.cachedIn(viewModelScope)
 
+    fun reload() = viewModelScope.launch {
+        screenState = PokemonListScreenState.Loading
+        loadPage(page = 0)
+    }
+
     private suspend fun loadPage(page: Int) {
         getPokemonPaginatedList(page = page)
             .catch {
-                screenState = PokemonListScreenState.Error
+                screenState = PokemonListScreenState.Error(message = it.localizedMessage ?: "")
             }
             .collect { pokemonsPage ->
                 with(pokemonsPage) {

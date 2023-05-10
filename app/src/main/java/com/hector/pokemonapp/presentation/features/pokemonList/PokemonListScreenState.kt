@@ -10,7 +10,9 @@ sealed class PokemonListScreenState {
 
     object Loading : PokemonListScreenState()
 
-    object Error : PokemonListScreenState()
+    data class Error(
+        val message: String,
+    ) : PokemonListScreenState()
 }
 
 data class PokemonViewItem(

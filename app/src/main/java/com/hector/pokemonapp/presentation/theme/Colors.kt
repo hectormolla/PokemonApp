@@ -12,3 +12,5 @@ val textColor
     get() = Color(0xFF69778c)
 val backgroundColor
     get() = Color(0xFFeaecef)
+val errorColor
+    get() = Color(0xFFf1908e)

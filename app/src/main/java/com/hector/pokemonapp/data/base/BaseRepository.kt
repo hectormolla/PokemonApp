@@ -10,7 +10,7 @@ abstract class BaseRepository {
         try {
             block.invoke(this)
         } catch (e: Exception) {
-            // TODO
+            throw e
         }
     }.flowOn(Dispatchers.IO)
 }
