@@ -3,12 +3,11 @@ package com.hector.pokemonapp.presentation.features.pokemonsDetails
 sealed class PokemonDetailsScreenState {
     data class Success(
         val pokemonDetailsViewItem: PokemonDetailsViewItem,
-    ): PokemonDetailsScreenState()
+    ) : PokemonDetailsScreenState()
 
     data class Error(
         val messageResId: Int,
-    ): PokemonDetailsScreenState()
-
+    ) : PokemonDetailsScreenState()
 }
 
 data class PokemonDetailsViewItem(

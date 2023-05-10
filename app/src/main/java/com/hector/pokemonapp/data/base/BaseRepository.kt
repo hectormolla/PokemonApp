@@ -1,7 +1,5 @@
 package com.hector.pokemonapp.data.base
 
-import android.content.res.Resources
-import androidx.compose.ui.res.stringResource
 import com.hector.pokemonapp.R
 import com.hector.pokemonapp.common.exception.AppException
 import com.hector.pokemonapp.common.result.AppResult
@@ -32,24 +30,24 @@ abstract class BaseRepository {
     }
 }
 
-private fun processException(e: Throwable): AppException = when(e) {
+private fun processException(e: Throwable): AppException = when (e) {
     is HttpRequestTimeoutException, is ResponseException ->
         AppException(
             resMessageId = R.string.error_server,
             msg = e.localizedMessage,
-            cause = e
+            cause = e,
         )
     is IOException ->
         AppException(
             resMessageId = R.string.error_offline,
             msg = e.localizedMessage,
-            cause = e
+            cause = e,
         )
     else -> {
         AppException(
             resMessageId = R.string.error_unknown,
             msg = e.localizedMessage,
-            cause = e
+            cause = e,
         )
     }
 }

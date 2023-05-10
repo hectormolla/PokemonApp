@@ -55,7 +55,7 @@ class PokemonListScreenViewModel(
     }
 
     private fun processError(error: Throwable) {
-        val messageResId = when(error) {
+        val messageResId = when (error) {
             is AppException -> error.resMessageId
             else -> R.string.error_unknown
         }

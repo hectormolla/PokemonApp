@@ -1,6 +1,5 @@
 package com.hector.pokemonapp.presentation.features.pokemonList
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 

@@ -22,18 +22,17 @@ import com.hector.pokemonapp.presentation.common.views.ScreenScafold
 import com.hector.pokemonapp.presentation.features.pokemonsDetails.PokemonDetailsScreenState
 import com.hector.pokemonapp.presentation.features.pokemonsDetails.PokemonDetailsScreenViewModel
 import com.hector.pokemonapp.presentation.features.pokemonsDetails.PokemonDetailsViewItem
-import kotlin.reflect.KProperty
 
 @Composable
 fun PokemonDetailsScreenView(
     viewModel: PokemonDetailsScreenViewModel,
 ) {
     ScreenScafold {
-        when(val screenState = viewModel.screenState) {
+        when (val screenState = viewModel.screenState) {
             is PokemonDetailsScreenState.Error -> ErrorView(
                 errorMessage = stringResource(id = screenState.messageResId),
                 onReloadClick = {
-                                viewModel.loadDetails()
+                    viewModel.loadDetails()
                 },
             )
             is PokemonDetailsScreenState.Success -> ContentView(
@@ -74,7 +73,6 @@ private fun ContentView(
             enter = scaleIn(animationSpec = linearAnimationSpec(durationInMillis = 250)),
         ) {
             PokemonDetailsCardView(details = pokemonDetailsViewItem)
-
         }
     }
 }
