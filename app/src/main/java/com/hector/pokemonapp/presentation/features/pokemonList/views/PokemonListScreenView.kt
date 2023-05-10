@@ -34,6 +34,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.hector.pokemonapp.R
 import com.hector.pokemonapp.presentation.LocalNavigator
 import com.hector.pokemonapp.presentation.common.navigation.Navigator
+import com.hector.pokemonapp.presentation.common.views.ErrorView
 import com.hector.pokemonapp.presentation.common.views.PokemonItemPlaceholderView
 import com.hector.pokemonapp.presentation.common.views.ScreenScafold
 import com.hector.pokemonapp.presentation.features.pokemonList.PokemonListScreenState
@@ -58,7 +59,7 @@ fun PokemonListScreenView(
     ScreenScafold {
         when (val screenState = viewModel.screenState) {
             is PokemonListScreenState.Error -> ErrorView(
-                errorMessage = screenState.message,
+                errorMessage = stringResource(id = screenState.messageResId),
                 onReloadClick = {
                     viewModel.reload()
                     pagingItems.refresh()
@@ -68,58 +69,6 @@ fun PokemonListScreenView(
             is PokemonListScreenState.Success -> ContentView(
                 pagingItems = pagingItems,
                 navigator = navigator,
-            )
-        }
-    }
-}
-
-@Composable
-private fun ErrorView(
-    errorMessage: String,
-    onReloadClick: () -> Unit,
-) {
-    val lottieComposition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.error_anim))
-    val progress by animateLottieCompositionAsState(lottieComposition)
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(28.dp),
-        verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        LottieAnimation(
-            modifier = Modifier.size(300.dp),
-            composition = lottieComposition,
-            progress = { progress },
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Card(
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            elevation = 0.dp,
-            backgroundColor = errorColor,
-        ) {
-            Text(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                text = errorMessage,
-                style = regularText,
-                color = Color.White,
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = primaryVariantColor),
-            onClick = { onReloadClick() },
-        ) {
-            Text(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                text = stringResource(R.string.reload),
-                style = regularTextBold,
-                color = Color.White,
             )
         }
     }

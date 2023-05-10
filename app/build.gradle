@@ -53,7 +53,7 @@ ext.versions = [
         activityCompose    : '1.7.1',
         composeBom         : '2023.04.01',
         composeNavigation  : '2.5.3',
-        paging             : '1.0.0-alpha19',
+        paging             : '1.0.0-alpha18',
         ktor               : '2.3.0',
         koin               : '3.4.0',
         koinCompose        : '3.4.4',

@@ -7,22 +7,29 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hector.pokemonapp.common.extensions.capitalize
 import com.hector.pokemonapp.common.extensions.summarize
+import com.hector.pokemonapp.common.result.AppResult
 import com.hector.pokemonapp.domain.entities.Pokemon
 import com.hector.pokemonapp.domain.usecase.GetPokemonDetailUseCase
 import kotlinx.coroutines.launch
 
 class PokemonDetailsScreenViewModel(
-    name: String,
+    private val name: String,
     private val getPokemonsDetails: GetPokemonDetailUseCase,
 ) : ViewModel() {
     var screenState: PokemonDetailsScreenState? by mutableStateOf(null)
         private set
 
     init {
-        viewModelScope.launch {
-            val pokemon = getPokemonsDetails(name = name)
-            screenState = PokemonDetailsScreenState(
-                pokemonDetailsViewItem = pokemon.toPokemonDetailsViewItem(),
+        loadDetails()
+    }
+
+    fun loadDetails() = viewModelScope.launch {
+        screenState = when(val result = getPokemonsDetails(name = name)) {
+            is AppResult.Error -> PokemonDetailsScreenState.Error(
+                messageResId = result.exception.resMessageId,
+            )
+            is AppResult.Success -> PokemonDetailsScreenState.Success(
+                pokemonDetailsViewItem = result.data.toPokemonDetailsViewItem()
             )
         }
     }

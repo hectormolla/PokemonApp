@@ -6,4 +6,8 @@
     <string name="types">Types</string>
     <string name="reload">Reload</string>
 
+    <string name="error_unknown">An unexpected error occurred. Please, try again later</string>
+    <string name="error_offline">Your device Is offline. Please, check your connection and try again.</string>
+    <string name="error_server">We are facing problems in our server. Please, try again later.</string>
+
 </resources>

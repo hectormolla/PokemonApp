@@ -9,7 +9,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.hector.pokemonapp.R
+import com.hector.pokemonapp.common.exception.AppException
 import com.hector.pokemonapp.common.extensions.capitalize
+import com.hector.pokemonapp.domain.entities.PaginatedPokemons
 import com.hector.pokemonapp.domain.entities.Pokemon
 import com.hector.pokemonapp.domain.usecase.GetPokemonPaginatedListUseCase
 import kotlinx.coroutines.flow.catch
@@ -35,18 +38,28 @@ class PokemonListScreenViewModel(
     private suspend fun loadPage(page: Int) {
         getPokemonPaginatedList(page = page)
             .catch {
-                screenState = PokemonListScreenState.Error(message = it.localizedMessage ?: "")
+                processError(error = it)
             }
-            .collect { pokemonsPage ->
-                with(pokemonsPage) {
-                    screenState = PokemonListScreenState.Success(
-                        totalCount = count,
-                        page = page,
-                        pageSize = pageSize,
-                        pokemons = pokemonsPage.pokemons.toPokemonViewItemList(),
-                    )
-                }
+            .collect {
+                processSuccess(pokemonsPage = it)
             }
+    }
+
+    private fun processSuccess(pokemonsPage: PaginatedPokemons) = with(pokemonsPage) {
+        screenState = PokemonListScreenState.Success(
+            totalCount = count,
+            page = page,
+            pageSize = pageSize,
+            pokemons = pokemonsPage.pokemons.toPokemonViewItemList(),
+        )
+    }
+
+    private fun processError(error: Throwable) {
+        val messageResId = when(error) {
+            is AppException -> error.resMessageId
+            else -> R.string.error_unknown
+        }
+        screenState = PokemonListScreenState.Error(messageResId = messageResId)
     }
 }
 

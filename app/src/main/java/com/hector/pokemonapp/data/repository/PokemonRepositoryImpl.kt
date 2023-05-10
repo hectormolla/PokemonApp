@@ -1,5 +1,6 @@
 package com.hector.pokemonapp.data.repository
 
+import com.hector.pokemonapp.common.result.AppResult
 import com.hector.pokemonapp.data.api.PokemonApi
 import com.hector.pokemonapp.data.api.model.PokemonPageResponse
 import com.hector.pokemonapp.data.base.BaseRepository
@@ -19,6 +20,7 @@ class PokemonRepositoryImpl(
         val pokemons: List<Pokemon> = pageResponse.results.map {
             api.requestPokemonDetails(name = it.name).toPokemon()
         }
+        Result
         emit(
             pageResponse.toPaginatedPokemons(
                 page = page,
@@ -27,6 +29,7 @@ class PokemonRepositoryImpl(
         )
     }
 
-    override suspend fun getPokemonDetail(name: String): Pokemon =
-        api.requestPokemonDetails(name = name).toPokemon()
+    override suspend fun getPokemonDetail(name: String): AppResult<Pokemon> = bg {
+        AppResult.Success(api.requestPokemonDetails(name = name).toPokemon())
+    }
 }
