@@ -1,6 +1,5 @@
 package com.hector.pokemonapp.presentation.common.views
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,7 +10,7 @@ import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hector.pokemonapp.presentation.common.utils.createShimmerBrush
+import com.hector.pokemonapp.presentation.common.utils.withShimmerEffect
 
 @Composable
 internal fun PokemonItemPlaceholderView() {
@@ -26,7 +25,7 @@ internal fun PokemonItemPlaceholderView() {
         Spacer(
             modifier = Modifier
                 .fillMaxSize()
-                .background(createShimmerBrush()),
+                .withShimmerEffect(),
         )
     }
 }

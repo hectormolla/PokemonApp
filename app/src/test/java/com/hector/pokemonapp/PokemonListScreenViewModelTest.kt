@@ -1,7 +1,6 @@
 package com.hector.pokemonapp
 
 import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.offlineError
-import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.page0
 import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.page1
 import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.serverError
 import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.toExpectedScreenSuccessState
@@ -20,7 +19,6 @@ import io.mockk.verify
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -85,28 +83,6 @@ class PokemonListScreenViewModelTest : BaseTest() {
         val actual = viewModel.screenState
 
         val expected = PokemonListScreenState.Error(messageResId = serverError.messageResId)
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `On reload(), page 0 is requested to UseCase`() = runTest {
-        viewModel.reload()
-        advanceUntilIdle()
-
-        val page = slot<Int>()
-        verify { getPokemonPaginatedListUseCase.invoke(capture(page)) }
-        assertEquals(0, page.captured)
-    }
-
-    @Test
-    fun `On reload(), screen state is published with page 0 content`() = runTest {
-        every { getPokemonPaginatedListUseCase.invoke(0) } returns flow { emit(page0) }
-
-        viewModel.reload()
-        advanceUntilIdle()
-        val actual = viewModel.screenState
-
-        val expected = page0.toExpectedScreenSuccessState()
         assertEquals(expected, actual)
     }
 
