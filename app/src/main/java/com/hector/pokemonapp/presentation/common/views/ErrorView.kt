@@ -25,10 +25,8 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.hector.pokemonapp.R
-import com.hector.pokemonapp.presentation.theme.errorColor
-import com.hector.pokemonapp.presentation.theme.primaryVariantColor
-import com.hector.pokemonapp.presentation.theme.regularText
-import com.hector.pokemonapp.presentation.theme.regularTextBold
+import com.hector.pokemonapp.presentation.theme.AppColors
+import com.hector.pokemonapp.presentation.theme.AppTypography
 
 @Composable
 fun ErrorView(
@@ -55,12 +53,12 @@ fun ErrorView(
                 .fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
             elevation = 0.dp,
-            backgroundColor = errorColor,
+            backgroundColor = AppColors.error,
         ) {
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
                 text = errorMessage,
-                style = regularText,
+                style = AppTypography.regularText,
                 color = Color.White,
             )
         }
@@ -69,13 +67,13 @@ fun ErrorView(
             modifier = Modifier
                 .fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = primaryVariantColor),
+            colors = ButtonDefaults.buttonColors(backgroundColor = AppColors.primaryVariant),
             onClick = { onReloadClick() },
         ) {
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 text = stringResource(R.string.reload),
-                style = regularTextBold,
+                style = AppTypography.regularTextBold,
                 color = Color.White,
             )
         }

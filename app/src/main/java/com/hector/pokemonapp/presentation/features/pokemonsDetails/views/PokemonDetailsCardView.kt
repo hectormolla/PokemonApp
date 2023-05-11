@@ -27,11 +27,8 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.hector.pokemonapp.R
 import com.hector.pokemonapp.presentation.features.pokemonsDetails.PokemonDetailsViewItem
-import com.hector.pokemonapp.presentation.theme.h1
-import com.hector.pokemonapp.presentation.theme.primaryColor
-import com.hector.pokemonapp.presentation.theme.regularText
-import com.hector.pokemonapp.presentation.theme.regularTextBold
-import com.hector.pokemonapp.presentation.theme.textColor
+import com.hector.pokemonapp.presentation.theme.AppColors
+import com.hector.pokemonapp.presentation.theme.AppTypography
 
 @Composable
 fun PokemonDetailsCardView(
@@ -103,8 +100,8 @@ private fun PokemonDetailsBodyView(
             ) {
                 Text(
                     text = name,
-                    color = primaryColor,
-                    style = h1,
+                    color = AppColors.primary,
+                    style = AppTypography.h1,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
@@ -142,13 +139,13 @@ private fun InfoItem(
     ) {
         Text(
             text = title,
-            color = textColor,
-            style = regularTextBold,
+            color = AppColors.text,
+            style = AppTypography.regularTextBold,
         )
         Text(
             text = subtitle,
-            color = textColor,
-            style = regularText,
+            color = AppColors.text,
+            style = AppTypography.regularText,
         )
     }
 }

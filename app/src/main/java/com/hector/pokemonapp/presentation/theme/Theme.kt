@@ -14,18 +14,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+// Light are Dark palettes have the same colors for simplicity, in a real scenario colors would be adjusted to the mode.
 private val darkColorPalette = darkColors(
-    primary = primaryColor,
-    primaryVariant = primaryVariantColor,
-    secondary = secondaryColor,
-    background = backgroundColor,
+    primary = AppColors.primary,
+    primaryVariant = AppColors.primaryVariant,
+    secondary = AppColors.secondary,
+    background = AppColors.background,
 )
 
 private val lightColorPalette = lightColors(
-    primary = primaryColor,
-    primaryVariant = primaryVariantColor,
-    secondary = secondaryColor,
-    background = backgroundColor,
+    primary = AppColors.primary,
+    primaryVariant = AppColors.primaryVariant,
+    secondary = AppColors.secondary,
+    background = AppColors.background,
 )
 
 @Composable
