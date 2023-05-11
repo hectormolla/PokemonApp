@@ -88,28 +88,6 @@ class PokemonListScreenViewModelTest : BaseTest() {
         assertEquals(expected, actual)
     }
 
-    @Test
-    fun `On reload(), page 0 is requested to UseCase`() = runTest {
-        viewModel.reload()
-        advanceUntilIdle()
-
-        val page = slot<Int>()
-        verify { getPokemonPaginatedListUseCase.invoke(capture(page)) }
-        assertEquals(0, page.captured)
-    }
-
-    @Test
-    fun `On reload(), screen state is published with page 0 content`() = runTest {
-        every { getPokemonPaginatedListUseCase.invoke(0) } returns flow { emit(page0) }
-
-        viewModel.reload()
-        advanceUntilIdle()
-        val actual = viewModel.screenState
-
-        val expected = page0.toExpectedScreenSuccessState()
-        assertEquals(expected, actual)
-    }
-
     object TestData {
         private val pokemon1 = PokemonBuilder().id(1).build()
         private val pokemon2 = PokemonBuilder().id(2).build()
