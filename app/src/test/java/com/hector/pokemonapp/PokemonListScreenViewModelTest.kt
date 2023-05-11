@@ -5,6 +5,7 @@ import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.page0
 import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.page1
 import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.serverError
 import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.toExpectedScreenSuccessState
+import com.hector.pokemonapp.common.BaseTest
 import com.hector.pokemonapp.common.PokemonBuilder
 import com.hector.pokemonapp.common.exception.AppError
 import com.hector.pokemonapp.domain.entities.PaginatedPokemons
@@ -20,6 +21,7 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -77,7 +79,7 @@ class PokemonListScreenViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `On loadPage(), error screen state is published when server fails`() = runBlocking {
+    fun `On loadPage(), error screen state is published when server fails`() = runTest {
         every { getPokemonPaginatedListUseCase.invoke(any()) } returns flow { throw serverError }
         viewModel.loadPage(page = 1)
 
@@ -90,6 +92,7 @@ class PokemonListScreenViewModelTest: BaseTest() {
     @Test
     fun `On reload(), page 0 is requested to UseCase`() = runTest {
         viewModel.reload()
+        advanceUntilIdle()
 
         val page = slot<Int>()
         verify { getPokemonPaginatedListUseCase.invoke(capture(page)) }
@@ -97,10 +100,11 @@ class PokemonListScreenViewModelTest: BaseTest() {
     }
 
     @Test
-    fun `On reload(), screen state is published with page 0 content`() = runBlocking {
+    fun `On reload(), screen state is published with page 0 content`() = runTest {
         every { getPokemonPaginatedListUseCase.invoke(0) } returns flow { emit(page0) }
-        viewModel.reload()
 
+        viewModel.reload()
+        advanceUntilIdle()
         val actual = viewModel.screenState
 
         val expected = page0.toExpectedScreenSuccessState()

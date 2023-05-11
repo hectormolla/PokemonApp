@@ -5,6 +5,7 @@ import com.hector.pokemonapp.PokemonDetailsScreenViewModelTest.TestData.offlineE
 import com.hector.pokemonapp.PokemonDetailsScreenViewModelTest.TestData.pokemon
 import com.hector.pokemonapp.PokemonDetailsScreenViewModelTest.TestData.serverErrorResult
 import com.hector.pokemonapp.PokemonDetailsScreenViewModelTest.TestData.successResult
+import com.hector.pokemonapp.common.BaseTest
 import com.hector.pokemonapp.common.exception.AppError
 import com.hector.pokemonapp.common.extensions.capitalize
 import com.hector.pokemonapp.common.extensions.summarize
@@ -19,12 +20,11 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.slot
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Before
 import org.junit.Test
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PokemonDetailsScreenViewModelTest: BaseTest() {
@@ -34,11 +34,12 @@ class PokemonDetailsScreenViewModelTest: BaseTest() {
     @Before
     fun setUp() {
         getPokemonDetailUseCase = mockk(relaxed = true)
+        viewModel = PokemonDetailsScreenViewModel(pokemon.name,getPokemonDetailUseCase)
     }
 
     @Test
     fun `On ViewModel init, details are requested for name once`() = runTest {
-        viewModel = PokemonDetailsScreenViewModel(pokemon.name,getPokemonDetailUseCase)
+        advanceUntilIdle()
 
         val nameRequested = slot<String>()
         coVerify { getPokemonDetailUseCase(capture(nameRequested)) }
@@ -48,18 +49,18 @@ class PokemonDetailsScreenViewModelTest: BaseTest() {
 
     @Test
     fun `On loadDetails() called after viewModel init, details are requested twice`() = runTest {
-        viewModel = PokemonDetailsScreenViewModel(pokemon.name,getPokemonDetailUseCase)
-
         viewModel.loadDetails()
+        advanceUntilIdle()
+
         coVerify(exactly = 2) { getPokemonDetailUseCase(any()) }
     }
 
     @Test
     fun `On loadDetails(), details are returned successfully`() = runTest {
         coEvery { getPokemonDetailUseCase(pokemon.name) } returns successResult
-        viewModel = PokemonDetailsScreenViewModel(pokemon.name,getPokemonDetailUseCase)
 
         viewModel.loadDetails()
+        advanceUntilIdle()
         val actual = viewModel.screenState
 
         val expectedScreenState = PokemonDetailsScreenState.Success(pokemonDetailsViewItem = expectedPokemonDetails)
@@ -69,9 +70,9 @@ class PokemonDetailsScreenViewModelTest: BaseTest() {
     @Test
     fun `On loadDetails() with offline device, error is returned`() = runTest {
         coEvery { getPokemonDetailUseCase(any()) } returns offlineErrorResult
-        viewModel = PokemonDetailsScreenViewModel(pokemon.name,getPokemonDetailUseCase)
 
         viewModel.loadDetails()
+        advanceUntilIdle()
         val actual = viewModel.screenState
 
         val expectedScreenState = PokemonDetailsScreenState.Error(
@@ -83,9 +84,9 @@ class PokemonDetailsScreenViewModelTest: BaseTest() {
     @Test
     fun `On loadDetails() with server fail, error is returned`() = runTest {
         coEvery { getPokemonDetailUseCase(any()) } returns serverErrorResult
-        viewModel = PokemonDetailsScreenViewModel(pokemon.name,getPokemonDetailUseCase)
 
         viewModel.loadDetails()
+        advanceUntilIdle()
         val actual = viewModel.screenState
 
         val expectedScreenState = PokemonDetailsScreenState.Error(
