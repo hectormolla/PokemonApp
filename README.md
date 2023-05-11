@@ -7,7 +7,9 @@ This example app is composed by three screens:
 - **Pokemon List Screen**: shows the full list of **Pokemons**. The list is paginated as an infinite scroll and allows the user to navigate to the character detail screen.
 - **Pokemon Details Screen**: shows the details of a pokemon.
 
-https://github.com/hectormolla/PokemonApp/assets/7500157/2525a717-2ed3-4440-9adb-54bb71b03f92
+
+https://github.com/hectormolla/PokemonApp/assets/7500157/88df5427-e629-44ba-bfd9-36a4e08b4510
+
 
 # Architecture
 The project is based on a MVVM/Clean architecture composed by three layers.
