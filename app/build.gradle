@@ -60,6 +60,8 @@ ext.versions = [
         serialization      : '1.5.0',
         lottie             : '6.0.0',
         coil               : '2.3.0',
+        mockk              : '1.13.5',
+        coroutines         : '1.6.4',
 ]
 
 dependencies {
@@ -87,6 +89,8 @@ dependencies {
     implementation "io.coil-kt:coil-compose:$versions.coil"
 
     testImplementation 'junit:junit:4.13.2'
+    testImplementation "io.mockk:mockk:$versions.mockk"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines")
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation platform("androidx.compose:compose-bom:$versions.composeBom")

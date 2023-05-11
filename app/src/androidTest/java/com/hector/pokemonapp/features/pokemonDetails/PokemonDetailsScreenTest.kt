@@ -22,6 +22,7 @@ import com.hector.pokemonapp.presentation.common.tags.ViewTags
 import com.hector.pokemonapp.presentation.features.pokemonsDetails.PokemonDetailsScreenViewModel
 import com.hector.pokemonapp.presentation.features.pokemonsDetails.views.PokemonDetailsScreenView
 import com.hector.pokemonapp.presentation.theme.PokemonTheme
+import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,8 +32,8 @@ class PokemonDetailsScreenTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-    private lateinit var getPokemonDetailUseCase: GetPokemonDetailUseCase
-    private lateinit var navigator: Navigator
+    private lateinit var getPokemonDetailUseCase: TestData.GetPokemonDetailUseCaseFake
+    private lateinit var navigator: TestData.NavigatorFake
 
     @Before
     fun setUp() {
@@ -54,7 +55,8 @@ class PokemonDetailsScreenTest {
         renderScreen()
         composeTestRule.onNodeWithTag(ViewTags.BACK_BUTTON).assertIsDisplayed()
         composeTestRule.onNodeWithTag(ViewTags.BACK_BUTTON).performClick()
-        assert((navigator as TestData.NavigatorFake).backTimesClicked == 1)
+        val actual = navigator.backTimesClicked
+        assertEquals(1, actual)
     }
 
     @Test
@@ -74,7 +76,7 @@ class PokemonDetailsScreenTest {
     }
 
     private fun renderScreen(result: AppResult<Pokemon> = AppResult.Success(data = pokemon)) {
-        (getPokemonDetailUseCase as TestData.GetPokemonDetailUseCaseFake).setResult(result = result)
+        getPokemonDetailUseCase.setResult(result = result)
         composeTestRule.activity.setContent {
             CompositionLocalProvider(LocalNavigator provides navigator) {
                 PokemonTheme {
@@ -123,50 +125,3 @@ class PokemonDetailsScreenTest {
         )
     }
 }
-
-// class PokemonDetailsScreenTest {
-//    @get:Rule
-//    val composeTestRule = createAndroidComposeRule<MainActivity>()
-//
-//    private val getPokemonDetailUseCase: GetPokemonDetailUseCase = mockk()
-//
-//    private val mockModules = module {
-//        single { getPokemonDetailUseCase }
-//    }
-//
-//    @Before
-//    fun setUp() {
-//        startKoin {
-//            modules(mockModules)
-//        }
-//    }
-//
-//    @After
-//    fun tearDown() {
-//        stopKoin()
-//    }
-//
-//    @Test
-//    fun Test1() = runTest {
-//        every { getPokemonDetailUseCase.invoke(any()) }
-//    }
-//
-//    private fun renderScreen() {
-//        composeTestRule.setContent {
-//            PokemonTheme {
-//                PokemonDetailsScreenView(viewModel = koinViewModel())
-//            }
-//        }
-//    }
-//
-//    object TestData {
-//        val pokemon = Pokemon(
-//            id = 1,
-//            name = "Bulbasaur",
-//            weight = 69,
-//            height = 7,
-//            imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg",
-//            types = listOf("grass", "poison")
-//        )
-//    }
-// }

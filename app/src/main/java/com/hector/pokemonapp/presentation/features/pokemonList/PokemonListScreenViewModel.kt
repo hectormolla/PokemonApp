@@ -15,6 +15,7 @@ import com.hector.pokemonapp.common.extensions.capitalize
 import com.hector.pokemonapp.domain.entities.PaginatedPokemons
 import com.hector.pokemonapp.domain.entities.Pokemon
 import com.hector.pokemonapp.domain.usecase.GetPokemonPaginatedListUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
@@ -35,7 +36,7 @@ class PokemonListScreenViewModel(
         loadPage(page = 0)
     }
 
-    private suspend fun loadPage(page: Int) {
+    suspend fun loadPage(page: Int) {
         getPokemonPaginatedList(page = page)
             .catch {
                 processError(error = it)
@@ -63,7 +64,7 @@ class PokemonListScreenViewModel(
     }
 }
 
-private fun List<Pokemon>.toPokemonViewItemList(): List<PokemonViewItem> = this.map {
+fun List<Pokemon>.toPokemonViewItemList(): List<PokemonViewItem> = this.map {
     PokemonViewItem(
         nameId = it.name,
         name = it.name.capitalize(),
