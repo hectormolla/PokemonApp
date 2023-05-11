@@ -1,7 +1,6 @@
 package com.hector.pokemonapp
 
 import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.offlineError
-import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.page0
 import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.page1
 import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.serverError
 import com.hector.pokemonapp.PokemonListScreenViewModelTest.TestData.toExpectedScreenSuccessState
@@ -20,7 +19,6 @@ import io.mockk.verify
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
