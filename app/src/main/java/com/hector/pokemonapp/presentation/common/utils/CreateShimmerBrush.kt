@@ -11,7 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import com.hector.pokemonapp.presentation.theme.primaryColor
+import com.hector.pokemonapp.presentation.theme.AppColors
 
 @Composable
 fun createShimmerBrush(
@@ -39,7 +39,7 @@ fun createShimmerBrush(
 
 @Composable
 private fun shimmerColorShades() = listOf(
-    primaryColor.copy(0f),
-    primaryColor.copy(0.1f),
-    primaryColor.copy(0f),
+    AppColors.primary.copy(0f),
+    AppColors.primary.copy(0.1f),
+    AppColors.primary.copy(0f),
 )

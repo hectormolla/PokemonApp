@@ -28,8 +28,8 @@ import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.hector.pokemonapp.R
-import com.hector.pokemonapp.presentation.theme.h1
-import com.hector.pokemonapp.presentation.theme.primaryColor
+import com.hector.pokemonapp.presentation.theme.AppColors
+import com.hector.pokemonapp.presentation.theme.AppTypography
 
 @Composable
 fun PokemonItemView(
@@ -66,8 +66,8 @@ fun PokemonItemView(
             Text(
                 modifier = Modifier.weight(1f),
                 text = name,
-                color = primaryColor,
-                style = h1,
+                color = AppColors.primary,
+                style = AppTypography.h1,
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column(
@@ -78,7 +78,7 @@ fun PokemonItemView(
                 Icon(
                     imageVector = Icons.Filled.ArrowRight,
                     contentDescription = null,
-                    tint = primaryColor,
+                    tint = AppColors.primary,
                 )
             }
         }
