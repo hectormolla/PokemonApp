@@ -17,14 +17,20 @@ import com.hector.pokemonapp.domain.entities.Pokemon
 import com.hector.pokemonapp.domain.usecase.GetPokemonPaginatedListUseCase
 import com.hector.pokemonapp.presentation.common.navigation.Navigator
 import com.hector.pokemonapp.presentation.features.pokemonsDetails.PokemonDetailsScreenDestination
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.launch
 
 class PokemonListScreenViewModel(
     private val getPokemonPaginatedList: GetPokemonPaginatedListUseCase,
 ) : ViewModel() {
     var screenState: PokemonListScreenState by mutableStateOf(PokemonListScreenState.Loading)
         private set
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean>
+        get() = _isRefreshing.asStateFlow()
+
     val pagingFlowState = Pager(PagingConfig(enablePlaceholders = true, pageSize = PAGE_SIZE)) {
         PokemonListPagingSource(
             loadPage = { page -> loadPage(page) },
@@ -32,9 +38,8 @@ class PokemonListScreenViewModel(
         )
     }.flow.cachedIn(viewModelScope)
 
-    fun reload() = viewModelScope.launch {
+    fun loading() {
         screenState = PokemonListScreenState.Loading
-        loadPage(page = 0)
     }
 
     suspend fun loadPage(page: Int) {
@@ -44,6 +49,7 @@ class PokemonListScreenViewModel(
             }
             .collect {
                 processSuccess(pokemonsPage = it)
+                _isRefreshing.emit(false)
             }
     }
 
