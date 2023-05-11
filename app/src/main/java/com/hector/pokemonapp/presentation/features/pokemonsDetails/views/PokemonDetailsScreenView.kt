@@ -1,5 +1,6 @@
 package com.hector.pokemonapp.presentation.features.pokemonsDetails.views
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.scaleIn
@@ -14,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hector.pokemonapp.presentation.common.animations.linearAnimationSpec
@@ -72,7 +74,10 @@ private fun ContentView(
             visible = visibility,
             enter = scaleIn(animationSpec = linearAnimationSpec(durationInMillis = 250)),
         ) {
-            PokemonDetailsCardView(details = pokemonDetailsViewItem)
+            when (LocalConfiguration.current.orientation) {
+                Configuration.ORIENTATION_LANDSCAPE -> PokemonDetailsLandscapeCardView(details = pokemonDetailsViewItem)
+                else -> PokemonDetailsPortraitCardView(details = pokemonDetailsViewItem)
+            }
         }
     }
 }

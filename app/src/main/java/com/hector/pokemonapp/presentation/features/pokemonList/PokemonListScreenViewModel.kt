@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class PokemonListScreenViewModel(
-    private val navigator: Navigator,
     private val getPokemonPaginatedList: GetPokemonPaginatedListUseCase,
 ) : ViewModel() {
     var screenState: PokemonListScreenState by mutableStateOf(PokemonListScreenState.Loading)
@@ -48,7 +47,7 @@ class PokemonListScreenViewModel(
             }
     }
 
-    fun showDetails(nameId: String) {
+    fun showDetails(navigator: Navigator, nameId: String) {
         navigator.navigateToDestination(
             destination = PokemonDetailsScreenDestination(name = nameId),
         )
