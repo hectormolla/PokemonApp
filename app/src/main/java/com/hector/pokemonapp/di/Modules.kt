@@ -11,6 +11,7 @@ import com.hector.pokemonapp.domain.usecase.impl.GetPokemonDetailUseCaseImpl
 import com.hector.pokemonapp.domain.usecase.impl.GetPokemonPaginatedListUseCaseImpl
 import com.hector.pokemonapp.presentation.features.pokemonList.PokemonListScreenViewModel
 import com.hector.pokemonapp.presentation.features.pokemonsDetails.PokemonDetailsScreenViewModel
+import com.hector.pokemonapp.presentation.features.splash.SplashScreenViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -23,8 +24,9 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 private val presentationModule = module {
-    viewModel { PokemonListScreenViewModel(get()) }
+    viewModel { params -> PokemonListScreenViewModel(params.get(), get()) }
     viewModel { params -> PokemonDetailsScreenViewModel(params.get(), get()) }
+    viewModel { params -> SplashScreenViewModel(params.get()) }
 }
 
 private val domainModule = module {

@@ -15,10 +15,13 @@ import com.hector.pokemonapp.common.extensions.capitalize
 import com.hector.pokemonapp.domain.entities.PaginatedPokemons
 import com.hector.pokemonapp.domain.entities.Pokemon
 import com.hector.pokemonapp.domain.usecase.GetPokemonPaginatedListUseCase
+import com.hector.pokemonapp.presentation.common.navigation.Navigator
+import com.hector.pokemonapp.presentation.features.pokemonsDetails.PokemonDetailsScreenDestination
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class PokemonListScreenViewModel(
+    private val navigator: Navigator,
     private val getPokemonPaginatedList: GetPokemonPaginatedListUseCase,
 ) : ViewModel() {
     var screenState: PokemonListScreenState by mutableStateOf(PokemonListScreenState.Loading)
@@ -43,6 +46,12 @@ class PokemonListScreenViewModel(
             .collect {
                 processSuccess(pokemonsPage = it)
             }
+    }
+
+    fun showDetails(nameId: String) {
+        navigator.navigateToDestination(
+            destination = PokemonDetailsScreenDestination(name = nameId),
+        )
     }
 
     private fun processSuccess(pokemonsPage: PaginatedPokemons) = with(pokemonsPage) {

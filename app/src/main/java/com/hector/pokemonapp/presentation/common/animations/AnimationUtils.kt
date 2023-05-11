@@ -12,9 +12,9 @@ import androidx.compose.animation.scaleIn
 fun scaleAndFadeIn(
     durationInMillis: Int,
 ): EnterTransition = scaleIn(
-    animationSpec = linearAnimationSpec(durationInMillis = durationInMillis)
+    animationSpec = linearAnimationSpec(durationInMillis = durationInMillis),
 ) + fadeIn(
-    animationSpec = linearAnimationSpec(durationInMillis = durationInMillis)
+    animationSpec = linearAnimationSpec(durationInMillis = durationInMillis),
 )
 
 fun <T>linearAnimationSpec(durationInMillis: Int): FiniteAnimationSpec<T> = tween(

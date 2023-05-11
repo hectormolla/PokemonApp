@@ -8,20 +8,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import com.hector.pokemonapp.presentation.LocalNavigator
-import com.hector.pokemonapp.presentation.common.navigation.Navigator
 import com.hector.pokemonapp.presentation.common.views.ErrorView
 import com.hector.pokemonapp.presentation.common.views.PokemonItemPlaceholderView
 import com.hector.pokemonapp.presentation.common.views.ScreenScafold
 import com.hector.pokemonapp.presentation.features.pokemonList.PokemonListScreenState
 import com.hector.pokemonapp.presentation.features.pokemonList.PokemonListScreenViewModel
 import com.hector.pokemonapp.presentation.features.pokemonList.PokemonViewItem
-import com.hector.pokemonapp.presentation.features.pokemonsDetails.PokemonDetailsScreenDestination
 
 @Composable
 fun PokemonListScreenView(
     viewModel: PokemonListScreenViewModel,
-    navigator: Navigator = LocalNavigator.current,
 ) {
     val pagingItems: LazyPagingItems<PokemonViewItem> =
         viewModel.pagingFlowState.collectAsLazyPagingItems()
@@ -37,7 +33,9 @@ fun PokemonListScreenView(
             PokemonListScreenState.Loading -> LoadingView()
             is PokemonListScreenState.Success -> ContentView(
                 pagingItems = pagingItems,
-                navigator = navigator,
+                onItemClick = { nameId ->
+                    viewModel.showDetails(nameId = nameId)
+                },
             )
         }
     }
@@ -55,7 +53,7 @@ private fun LoadingView() {
 @Composable
 private fun ContentView(
     pagingItems: LazyPagingItems<PokemonViewItem>,
-    navigator: Navigator,
+    onItemClick: (String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -70,9 +68,7 @@ private fun ContentView(
                         name = name,
                         imageUrl = imageUrl,
                         onClick = {
-                            navigator.navigateToDestination(
-                                destination = PokemonDetailsScreenDestination(name = nameId),
-                            )
+                            onItemClick(nameId)
                         },
                     )
                 }

@@ -3,9 +3,7 @@ package com.hector.pokemonapp.presentation.features.splash.views
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,17 +27,15 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.hector.pokemonapp.R
-import com.hector.pokemonapp.presentation.LocalNavigator
 import com.hector.pokemonapp.presentation.common.animations.linearAnimationSpec
 import com.hector.pokemonapp.presentation.common.animations.scaleAndFadeIn
-import com.hector.pokemonapp.presentation.common.navigation.Navigator
-import com.hector.pokemonapp.presentation.features.pokemonList.PokemonListScreenDestination
+import com.hector.pokemonapp.presentation.features.splash.SplashScreenViewModel
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SplashScreenView(
-    navigator: Navigator = LocalNavigator.current,
+    viewModel: SplashScreenViewModel,
 ) {
     val lottieComposition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.pokeball_anim))
     val progress by animateLottieCompositionAsState(lottieComposition)
@@ -54,9 +50,7 @@ fun SplashScreenView(
         delay(splashDuration.toLong())
         imageVisible = false
         delay(splashDuration.toLong() / 2)
-        navigator.navigateToDestination(destination = PokemonListScreenDestination) {
-            popUpTo(0) { inclusive = true }
-        }
+        viewModel.splashFinished()
     }
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -64,9 +58,9 @@ fun SplashScreenView(
     ) {
         Box(
             modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 28.dp)
-            .offset(y = (-200).dp),
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp)
+                .offset(y = (-200).dp),
         ) {
             AnimatedVisibility(
                 visible = imageVisible,
