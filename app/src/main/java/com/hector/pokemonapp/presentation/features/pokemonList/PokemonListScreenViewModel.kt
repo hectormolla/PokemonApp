@@ -15,7 +15,6 @@ import com.hector.pokemonapp.common.extensions.capitalize
 import com.hector.pokemonapp.domain.entities.PaginatedPokemons
 import com.hector.pokemonapp.domain.entities.Pokemon
 import com.hector.pokemonapp.domain.usecase.GetPokemonPaginatedListUseCase
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 

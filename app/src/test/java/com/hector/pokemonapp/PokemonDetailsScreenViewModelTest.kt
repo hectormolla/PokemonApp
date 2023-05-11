@@ -22,19 +22,19 @@ import io.mockk.slot
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlinx.coroutines.test.runTest
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class PokemonDetailsScreenViewModelTest: BaseTest() {
+class PokemonDetailsScreenViewModelTest : BaseTest() {
     private lateinit var viewModel: PokemonDetailsScreenViewModel
     private lateinit var getPokemonDetailUseCase: GetPokemonDetailUseCase
 
     @Before
     fun setUp() {
         getPokemonDetailUseCase = mockk(relaxed = true)
-        viewModel = PokemonDetailsScreenViewModel(pokemon.name,getPokemonDetailUseCase)
+        viewModel = PokemonDetailsScreenViewModel(pokemon.name, getPokemonDetailUseCase)
     }
 
     @Test
@@ -76,7 +76,7 @@ class PokemonDetailsScreenViewModelTest: BaseTest() {
         val actual = viewModel.screenState
 
         val expectedScreenState = PokemonDetailsScreenState.Error(
-            messageResId =  offlineErrorResult.value.messageResId,
+            messageResId = offlineErrorResult.value.messageResId,
         )
         assertEquals(expectedScreenState, actual)
     }
@@ -90,7 +90,7 @@ class PokemonDetailsScreenViewModelTest: BaseTest() {
         val actual = viewModel.screenState
 
         val expectedScreenState = PokemonDetailsScreenState.Error(
-            messageResId =  serverErrorResult.value.messageResId,
+            messageResId = serverErrorResult.value.messageResId,
         )
         assertEquals(expectedScreenState, actual)
     }

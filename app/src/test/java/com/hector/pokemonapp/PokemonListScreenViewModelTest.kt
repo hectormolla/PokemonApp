@@ -20,14 +20,13 @@ import io.mockk.verify
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class PokemonListScreenViewModelTest: BaseTest() {
+class PokemonListScreenViewModelTest : BaseTest() {
     private lateinit var viewModel: PokemonListScreenViewModel
 
     private lateinit var getPokemonPaginatedListUseCase: GetPokemonPaginatedListUseCase
@@ -115,7 +114,6 @@ class PokemonListScreenViewModelTest: BaseTest() {
         private val pokemon1 = PokemonBuilder().id(1).build()
         private val pokemon2 = PokemonBuilder().id(2).build()
 
-
         val page0 = PaginatedPokemons(
             count = 10,
             page = 0,
@@ -134,8 +132,8 @@ class PokemonListScreenViewModelTest: BaseTest() {
             totalCount = count,
             page = page,
             pageSize = pageSize,
-            pokemons = pokemons.toPokemonViewItemList()
-            )
+            pokemons = pokemons.toPokemonViewItemList(),
+        )
 
         val offlineError = AppError.Offline(exception = Exception())
         val serverError = AppError.Server(exception = Exception())

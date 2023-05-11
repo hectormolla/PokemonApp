@@ -8,7 +8,7 @@ class PokemonBuilder {
     private var height: Int = 10
     private var weight: Int = 50
     private var imageUrl: String = ""
-    private var types: List<String> = listOf("poison","grass")
+    private var types: List<String> = listOf("poison", "grass")
 
     fun id(id: Int) = also {
         this.id = id
@@ -34,7 +34,7 @@ class PokemonBuilder {
     fun build() = Pokemon(
         id = id,
         name = name,
-        height= height,
+        height = height,
         weight = weight,
         imageUrl = imageUrl,
         types = types,
