@@ -10,4 +10,3 @@ object AppColors {
     val background = Color(0xFFeaecef)
     val error = Color(0xFFf1908e)
 }
-

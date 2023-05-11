@@ -20,7 +20,6 @@ class PokemonRepositoryImpl(
         val pokemons: List<Pokemon> = pageResponse.results.map {
             api.requestPokemonDetails(name = it.name).toPokemon()
         }
-        Result
         emit(
             pageResponse.toPaginatedPokemons(
                 page = page,

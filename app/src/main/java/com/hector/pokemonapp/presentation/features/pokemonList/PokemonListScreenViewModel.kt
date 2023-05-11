@@ -35,7 +35,7 @@ class PokemonListScreenViewModel(
         loadPage(page = 0)
     }
 
-    private suspend fun loadPage(page: Int) {
+    suspend fun loadPage(page: Int) {
         getPokemonPaginatedList(page = page)
             .catch {
                 processError(error = it)
@@ -63,7 +63,7 @@ class PokemonListScreenViewModel(
     }
 }
 
-private fun List<Pokemon>.toPokemonViewItemList(): List<PokemonViewItem> = this.map {
+fun List<Pokemon>.toPokemonViewItemList(): List<PokemonViewItem> = this.map {
     PokemonViewItem(
         nameId = it.name,
         name = it.name.capitalize(),
