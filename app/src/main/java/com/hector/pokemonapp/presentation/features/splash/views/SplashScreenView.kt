@@ -1,7 +1,6 @@
 package com.hector.pokemonapp.presentation.features.splash.views
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
@@ -27,16 +26,18 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.hector.pokemonapp.R
+import com.hector.pokemonapp.presentation.LocalNavigator
 import com.hector.pokemonapp.presentation.common.animations.linearAnimationSpec
 import com.hector.pokemonapp.presentation.common.animations.scaleAndFadeIn
+import com.hector.pokemonapp.presentation.common.navigation.Navigator
 import com.hector.pokemonapp.presentation.features.splash.SplashScreenViewModel
 import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SplashScreenView(
     viewModel: SplashScreenViewModel,
 ) {
+    val navigator: Navigator = LocalNavigator.current
     val lottieComposition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.pokeball_anim))
     val progress by animateLottieCompositionAsState(lottieComposition)
     val splashDuration = 2000
@@ -50,7 +51,7 @@ fun SplashScreenView(
         delay(splashDuration.toLong())
         imageVisible = false
         delay(splashDuration.toLong() / 2)
-        viewModel.splashFinished()
+        viewModel.splashFinished(navigator = navigator)
     }
     Box(
         modifier = Modifier.fillMaxSize(),

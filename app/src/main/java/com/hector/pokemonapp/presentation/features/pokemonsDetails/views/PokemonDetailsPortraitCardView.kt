@@ -31,16 +31,16 @@ import com.hector.pokemonapp.presentation.theme.AppColors
 import com.hector.pokemonapp.presentation.theme.AppTypography
 
 @Composable
-fun PokemonDetailsCardView(
+fun PokemonDetailsPortraitCardView(
     details: PokemonDetailsViewItem,
     pictureSize: Dp = 150.dp,
 ) {
     Box(contentAlignment = Alignment.TopCenter) {
-        PokemonDetailsBodyView(
+        BodyView(
             details = details,
             pictureSize = pictureSize,
         )
-        PokemonDetailsHeaderView(
+        HeaderView(
             imageUrl = details.imageUrl,
             pictureSize = pictureSize,
         )
@@ -48,7 +48,7 @@ fun PokemonDetailsCardView(
 }
 
 @Composable
-private fun PokemonDetailsHeaderView(
+private fun HeaderView(
     imageUrl: String,
     pictureSize: Dp,
 ) {
@@ -79,7 +79,7 @@ private fun PokemonDetailsHeaderView(
 }
 
 @Composable
-private fun PokemonDetailsBodyView(
+private fun BodyView(
     details: PokemonDetailsViewItem,
     pictureSize: Dp,
 ) {
@@ -107,18 +107,18 @@ private fun PokemonDetailsBodyView(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    InfoItem(
+                    InfoItemView(
                         modifier = Modifier.weight(1f),
                         title = stringResource(R.string.weight),
                         subtitle = "$weight",
                     )
-                    InfoItem(
+                    InfoItemView(
                         modifier = Modifier.weight(1f),
                         title = stringResource(R.string.height),
                         subtitle = "$height",
                     )
                 }
-                InfoItem(
+                InfoItemView(
                     title = stringResource(R.string.types),
                     subtitle = types,
                 )
@@ -127,32 +127,9 @@ private fun PokemonDetailsBodyView(
     }
 }
 
-@Composable
-private fun InfoItem(
-    modifier: Modifier = Modifier,
-    title: String,
-    subtitle: String,
-) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = title,
-            color = AppColors.text,
-            style = AppTypography.regularTextBold,
-        )
-        Text(
-            text = subtitle,
-            color = AppColors.text,
-            style = AppTypography.regularText,
-        )
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
-fun PokemonDetailsCardPreview() {
+fun PokemonDetailsPortraitCardPreview() {
     val details = PokemonDetailsViewItem(
         name = "Bulbasaur",
         height = 10,
@@ -160,7 +137,7 @@ fun PokemonDetailsCardPreview() {
         imageUrl = "",
         types = "fire and water",
     )
-    PokemonDetailsCardView(
+    PokemonDetailsPortraitCardView(
         details = details,
     )
 }

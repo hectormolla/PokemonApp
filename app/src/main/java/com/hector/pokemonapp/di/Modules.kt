@@ -24,9 +24,9 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 private val presentationModule = module {
-    viewModel { params -> PokemonListScreenViewModel(params.get(), get()) }
+    viewModel { PokemonListScreenViewModel(get()) }
     viewModel { params -> PokemonDetailsScreenViewModel(params.get(), get()) }
-    viewModel { params -> SplashScreenViewModel(params.get()) }
+    viewModel { SplashScreenViewModel() }
 }
 
 private val domainModule = module {

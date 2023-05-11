@@ -8,6 +8,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.hector.pokemonapp.presentation.LocalNavigator
 import com.hector.pokemonapp.presentation.common.views.ErrorView
 import com.hector.pokemonapp.presentation.common.views.PokemonItemPlaceholderView
 import com.hector.pokemonapp.presentation.common.views.ScreenScafold
@@ -19,6 +20,7 @@ import com.hector.pokemonapp.presentation.features.pokemonList.PokemonViewItem
 fun PokemonListScreenView(
     viewModel: PokemonListScreenViewModel,
 ) {
+    val navigator = LocalNavigator.current
     val pagingItems: LazyPagingItems<PokemonViewItem> =
         viewModel.pagingFlowState.collectAsLazyPagingItems()
     ScreenScafold {
@@ -34,7 +36,7 @@ fun PokemonListScreenView(
             is PokemonListScreenState.Success -> ContentView(
                 pagingItems = pagingItems,
                 onItemClick = { nameId ->
-                    viewModel.showDetails(nameId = nameId)
+                    viewModel.showDetails(navigator = navigator, nameId = nameId)
                 },
             )
         }
